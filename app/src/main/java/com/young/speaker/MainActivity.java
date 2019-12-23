@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -22,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btn1;
     Button btn2;
+    Button btn3;
     ProgressBar progressBar;
     SpeechSynthesizer speechSynthesizer;
     private InitListener initListener;
@@ -122,6 +122,12 @@ public class MainActivity extends AppCompatActivity {
                 }).start();
             }
         });
+        btn3 = findViewById(R.id.btn3);
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
     }
 }

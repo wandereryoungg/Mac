@@ -21,6 +21,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <com.young.speaker.YoungProgress
+        android:id="@+id/young_progress"
+        app:layout_constraintTop_toBottomOf="@+id/progressbar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <Button
         android:id="@+id/btn1"
         android:layout_width="wrap_content"
@@ -36,6 +43,14 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:text="progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btn3"
+        app:layout_constraintTop_toBottomOf="@+id/btn2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="方法二创建Progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
