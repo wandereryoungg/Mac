@@ -1,11 +1,15 @@
 package com.young.speaker;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechConstant;
@@ -17,9 +21,24 @@ import com.iflytek.cloud.SynthesizerListener;
 public class MainActivity extends AppCompatActivity {
 
     Button btn1;
+    Button btn2;
+    ProgressBar progressBar;
     SpeechSynthesizer speechSynthesizer;
     private InitListener initListener;
     private SynthesizerListener synthesizerListener;
+    private int progress = 0;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what){
+                case 1:
+                    progressBar.setProgress(progress);
+
+                    break;
+            }
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +97,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                speechSynthesizer.startSpeaking("赵芹是大笨蛋哈哈哈",synthesizerListener);
+                speechSynthesizer.startSpeaking("赵芹老婆",synthesizerListener);
             }
         });
+        btn2 = findViewById(R.id.btn2);
+        progressBar = findViewById(R.id.progressbar);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while(progress <= 100){
+                            try {
+                                handler.sendEmptyMessage(1);
+                                Thread.sleep(500);
+                                progress++;
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }).start();
+            }
+        });
+
     }
 }
