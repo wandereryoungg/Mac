@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 
@@ -24,17 +26,23 @@ public class YoungProgress extends View {
     private int width;
     private int height;
 
+
     public YoungProgress(Context context) {
         super(context, null);
+        init();
+        Log.d("young","init1...");
     }
 
     public YoungProgress(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs, 0);
+        init();
+        Log.d("young","init2...");
     }
 
     public YoungProgress(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
+        Log.d("young","init3...");
     }
 
     private void init() {
@@ -58,8 +66,10 @@ public class YoungProgress extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        Log.d("young","onMeasure...");
         width = getRealSize(widthMeasureSpec);
         height = getRealSize(heightMeasureSpec);
+        Log.d("young","width: "+width+" height: "+height);
         setMeasuredDimension(width,height);
     }
 
@@ -67,6 +77,7 @@ public class YoungProgress extends View {
         int result = 1;
         int mode = MeasureSpec.getMode(measureSpec);
         int size = MeasureSpec.getSize(measureSpec);
+        Log.d("young","size: "+size);
         if(mode == MeasureSpec.AT_MOST || mode == MeasureSpec.UNSPECIFIED){
             result = (int) (radius*2+strokeWidth);
         }else{
@@ -77,15 +88,19 @@ public class YoungProgress extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        Log.e("young","onDraw...");
         initRect();
-        float angle = progress/maxProgress*360;
+        //重要-----------------------------------------------
+        float angle = progress/(float)maxProgress*360;
+        Log.e("young","angle: "+angle);
         canvas.drawCircle(width/2,height/2,radius,backPaint);
         canvas.drawArc(rectF,-90,angle,false,progressPaint);
-        canvas.drawText(progress+"%",width/2+halfStrokeWidth,height/2+halfStrokeWidth,textPaint);
-        if(progress<targetProgress){
-            progress += 1;
-            invalidate();
-        }
+        canvas.drawText(progress+"%",width/2,height/2+halfStrokeWidth,textPaint);
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
+        invalidate();
     }
 
     private void initRect() {
@@ -96,6 +111,7 @@ public class YoungProgress extends View {
             int top = (height - viewSize)/2;
             int right = left + viewSize;
             int bottom = top + viewSize;
+            Log.d("young","left: "+left+" top: "+top+" right: "+right+" bottom"+bottom);
             rectF.set(left,top,right,bottom);
         }
 

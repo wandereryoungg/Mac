@@ -27,13 +27,17 @@ public class MainActivity extends AppCompatActivity {
     private InitListener initListener;
     private SynthesizerListener synthesizerListener;
     private int progress = 0;
+    private int progress1 = 0;
+    private YoungProgress youngProgress;
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what){
                 case 1:
                     progressBar.setProgress(progress);
-
+                    break;
+                case 2:
+                    youngProgress.setProgress(progress1);
                     break;
             }
 
@@ -97,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                speechSynthesizer.startSpeaking("赵芹老婆",synthesizerListener);
+                speechSynthesizer.startSpeaking("赵芹- -",synthesizerListener);
             }
         });
         btn2 = findViewById(R.id.btn2);
@@ -122,11 +126,25 @@ public class MainActivity extends AppCompatActivity {
                 }).start();
             }
         });
+        youngProgress = findViewById(R.id.young_progress);
         btn3 = findViewById(R.id.btn3);
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (progress1 <=100){
+                            try {
+                                handler.sendEmptyMessage(2);
+                                Thread.sleep(500);
+                                progress1++;
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }).start();
             }
         });
     }
